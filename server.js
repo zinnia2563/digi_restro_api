@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
 const connectDB = require("./config/db");
-const userRoutes = require("./routes/userRoutes");
+const resOwnerRoutes = require("./routes/resOwnerRoutes");
 dotenv.config()
 connectDB()
 const app = express();
@@ -17,8 +17,8 @@ app.use(cors());
 app.get("/", function (req, res) {
   res.send("hello world");
 });
-//users routes
-app.use("/api/kitchen", userRoutes);
+//Restuarent owner API
+app.use("/api/res-owner", resOwnerRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,
