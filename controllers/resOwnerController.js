@@ -34,9 +34,9 @@ const ownerRegistration = asyncHandler(async (req, res) => {
   });
 
   try {
-    const createUser = await user.save();
+    const createOwner = await user.save();
     res.json({
-      message: successreg,
+      message: createOwner,
       createUser
     });
   } catch (error) {
