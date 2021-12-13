@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/resOwner");
 const {wrongLogin, userExist, successLogin, successreg} = require("../Helper/Response")
+const generateToken = require("../utils/generateToken");
 //Login for Restaurant owner 
 const ownerLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -11,6 +12,7 @@ const ownerLogin = asyncHandler(async (req, res) => {
       message: successLogin,
       _id: user._id,
       email: user.email,
+      token: generateToken(user._id),
     });
   } else {
     res.status(401);
@@ -36,11 +38,10 @@ const ownerRegistration = asyncHandler(async (req, res) => {
   try {
     const createOwner = await user.save();
     res.json({
-      message: createOwner,
-      createUser
+      message: successreg,
     });
   } catch (error) {
-   
+    console.log(error)
   }
 });
 module.exports = {
