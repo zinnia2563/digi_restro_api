@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const resOwnerRoutes = require("./routes/resOwnerRoutes");
+const restaurantRoute = require("./routes/restaurantRouter")
 dotenv.config()
 connectDB()
 const app = express();
@@ -19,6 +20,8 @@ app.get("/", function (req, res) {
 });
 //Restuarent owner API
 app.use("/api/res-owner", resOwnerRoutes);
+//Restuarent API
+app.use("/api/res",restaurantRoute)
 const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,
