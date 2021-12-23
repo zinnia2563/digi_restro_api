@@ -3,10 +3,12 @@ const protect = require('../middleware/authMiddleWare')
 const router = express.Router();
 const {
  RestaurantCreate,
- RestaurantUpdate
+ RestaurantUpdate,
+ GetAllRestaurant
 } = require("../controllers/restaurantController");
 
 router.route("/create").post(protect,RestaurantCreate);
-router.route("/update/:id").put(protect,RestaurantUpdate);
+router.route("/get_all").get(protect,GetAllRestaurant);
+router.route("/update/:id").patch(protect,RestaurantUpdate);
 
 module.exports = router;

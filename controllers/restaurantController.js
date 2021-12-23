@@ -43,7 +43,17 @@ const RestaurantCreate = asyncHandler(async (req, res) => {
         console.log(error);
     }
 });
-
+const GetAllRestaurant = asyncHandler(async (req,res) => {
+  try {
+    const restaurants = await Restaurant.find({});
+    res.status(200).json({
+      message: "All restaurant get successfully!",
+      data: restaurants,
+  })
+  } catch (error) {
+    res.json({ message: error });
+  }
+})
 ////Registration for Restaurant owner
 const RestaurantUpdate = asyncHandler(async (req, res) => {
 
@@ -65,5 +75,6 @@ const RestaurantUpdate = asyncHandler(async (req, res) => {
 });
 module.exports = {
  RestaurantCreate,
- RestaurantUpdate
+ RestaurantUpdate,
+ GetAllRestaurant
 };
