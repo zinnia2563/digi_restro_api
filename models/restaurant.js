@@ -8,6 +8,9 @@ const restaurantSchema = mongoose.Schema({
       },
     Restaurant_name: { type: String, required: true},
     branch_name: {type: String, required: true},
+    Address: {type: String, required: false},
+    Lat: {type: String, required: false},
+    Lng: {type: String, required: false},
     Code: { type: String},
     Qr_code_path: {type: String},
 

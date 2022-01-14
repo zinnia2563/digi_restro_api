@@ -1,16 +1,28 @@
 const asyncHandler = require("express-async-handler");
 const Restaurant = require("../models/restaurant");
 const QRCode = require('qrcode')
+const axios = require('axios');
 //Login for Restaurant owner 
 const RestaurantCreate = asyncHandler(async (req, res) => {
     const {
         Restaurant_name,
         branch_name,
+        Address,
     } = req.body;
+
+    //calling external api for lat long
+    const response = await axios.get(`https://geocode.maps.co/search?q=${Address}`);
+    const data = response.data;
+    const Lat = data[0].lat
+    const Lng = data[0].lon;
+
     const resItem = new Restaurant({
         Restaurant_owner_id: req.user._id,
         branch_name,
         Restaurant_name,
+        Address,
+        Lat,
+        Lng,
         Code: null,
         Qr_code_path: null,
     })
@@ -42,7 +54,19 @@ const RestaurantCreate = asyncHandler(async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+    return true;
 });
+const getSingleRestaurant = asyncHandler(async(req,res)=>{
+  const restuarent = await Restaurant.findById(req.params.id)
+  try {
+    res.status(200).json({
+      message: "successfully get restuarent data",
+      data: restuarent
+  })
+  } catch (error) {
+    return res.status(400).json({ error: error.toString() });
+  }
+})
 const GetAllRestaurant = asyncHandler(async (req,res) => {
   try {
     const restaurants = await Restaurant.find({});
@@ -58,11 +82,20 @@ const GetAllRestaurant = asyncHandler(async (req,res) => {
 const RestaurantUpdate = asyncHandler(async (req, res) => {
 
   const restuarent = await Restaurant.findById(req.params.id)
+  const { Address } = req.body;
+    //calling external api for lat long
+  const response = await axios.get(`https://geocode.maps.co/search?q=${Address}`);
+  const data = response.data;
+  const Lat = data[0].lat
+  const Lng = data[0].lon;
   if(restuarent){
       restuarent.Restaurant_name = req.body.Restaurant_name || restuarent.Restaurant_name
       restuarent.branch_name = req.body.branch_name || restuarent.branch_name
       restuarent.Code = req.body.Code || restuarent.Code
       restuarent.Qr_code_path = req.body.Qr_code_path || restuarent.Qr_code_path
+      restuarent.Address = req.body.Address || restuarent.Address
+      restuarent.Lat = Lat || restuarent.Lat
+      restuarent.Lng = Lng || restuarent.Lat
   }
   try {
       updateRestaurant = await restuarent.save();
@@ -76,5 +109,6 @@ const RestaurantUpdate = asyncHandler(async (req, res) => {
 module.exports = {
  RestaurantCreate,
  RestaurantUpdate,
- GetAllRestaurant
+ GetAllRestaurant,
+ getSingleRestaurant,
 };
