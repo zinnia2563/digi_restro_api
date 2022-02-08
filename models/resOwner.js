@@ -11,7 +11,14 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-   
+    restaurant_name: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: false,
+    }
   },
   {
     timestamps: true,

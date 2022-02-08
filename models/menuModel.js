@@ -6,10 +6,16 @@ const menuSchema = mongoose.Schema({
         required: true,
         ref: 'Restaurant',
       },
-    Category_id: { type: String, required: true},
+    Category_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true,
+        ref: 'Category'
+    },
     Item_name: {type: String, required: true},
     Price: {type: Number, required: true},
-    Quantity: {type: Number, required: true}
+    Quantity: {type: String, required: false},
+    Uom: {type: String, required: false}
+
 },
 {
     timestamps: true

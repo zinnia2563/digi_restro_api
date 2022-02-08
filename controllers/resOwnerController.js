@@ -33,6 +33,8 @@ const ownerRegistration = asyncHandler(async (req, res) => {
   const user = new User({
     email: req.body.email,
     password: req.body.password,
+    restaurant_name: req.body.restaurant_name,
+    address: req.body.address
   });
 
   try {

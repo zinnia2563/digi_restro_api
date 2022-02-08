@@ -34,5 +34,7 @@ router.route("/:res_id/food_category").get(protect,getAllCategory)
 // menu created path
 router.route("/:res_id/menu/create").post(protect,menuCreate);
 router.route("/:res_id/menu").get(protect,getMenuByResId);
+router.route("/:res_id/:branch_id/:table_number/menu").get(protect,getMenuByResId);
+
 
 module.exports = router;

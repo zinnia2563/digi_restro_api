@@ -18,11 +18,15 @@ const tableCreate = asyncHandler(async (req, res) => {
     try {
         const insertData = await insertAbleObject.save();
         const id = insertData._id;
-        const code = await QRCode.toDataURL(`${id}`);
+        const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+        let result = url.substring(0, url.length-12)+`1/${Table_number}/menu`;
+        console.log(result);
+        const code = await QRCode.toDataURL(`${result}`);
         let base64Data = code.replace(/^data:image\/\w+;base64,/, "");
         let fileName = id;
             fileName+='.png';
-        let FilePath = `./QRCodes/${fileName}`
+        let FilePath = `./public/QRCodes/${fileName}`
+        let imageLocation = `./QRCodes/${fileName}`
         require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
           
         });
@@ -30,7 +34,7 @@ const tableCreate = asyncHandler(async (req, res) => {
         if(table){
             table.Table_number = Table_number || table.Table_number
             table.Code = id || table.Code
-            table.Qr_code_path = FilePath || table.Qr_code_path
+            table.Qr_code_path = imageLocation || table.Qr_code_path
         }
         try {
             updateTable = await table.save();

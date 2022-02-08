@@ -6,13 +6,14 @@ const axios = require('axios');
 // menu Create API
 const menuCreate = asyncHandler(async(req, res) => {
 
-    const { Item_name, Price, Quantity, Category_id } = req.body;
+    const { Item_name, Price, Quantity, Category_id, Uom } = req.body;
     const insertAbleObject = new Table(
         {
             Item_name,
             Price,
             Quantity,
             Category_id,
+            Uom,
             Restaurant_id: req.params.res_id
         }
      )
@@ -28,6 +29,7 @@ const menuCreate = asyncHandler(async(req, res) => {
 })
 const getMenuByResId = asyncHandler(async(req,res)=>{
     const res_id = req.params.res_id;
+    console.log(res_id)
     try {
         const result = await Table.find({Restaurant_id: res_id});
         res.status(201).json({
