@@ -6,7 +6,11 @@ const categorySchema = mongoose.Schema({
         required: true,
         ref: 'Restaurant',
       },
-    Category_name: { type: String, required: true},
+    Category_name: { 
+        type: String,
+        enum: ['Breakfast','Lunch','Dinner','Snacks','Buffet','Beverage','Fast Food','Burger','Sandwich','French Fry','Fried Chicken','Pizza','Shawrma','Set Menu'],
+        required: true
+    },
 
 },
 {

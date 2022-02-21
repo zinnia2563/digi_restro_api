@@ -13,10 +13,10 @@ const { categoryCreate, getAllCategory } = require("../controllers/CategoryContr
 const {menuCreate, getMenuByResId}=require("../controllers/menuController");
 
 //restaurent related path
-router.route("/get_all").get(protect,GetAllRestaurant);
-router.route("/create").post(protect,RestaurantCreate);
-router.route("/update/:id").patch(protect,RestaurantUpdate);
-router.route("/:id").get(protect,getSingleRestaurant);
+router.route("/get_all").get(GetAllRestaurant);
+router.route("/create").post(RestaurantCreate);
+router.route("/update/:id").patch(RestaurantUpdate);
+router.route("/:id").get(getSingleRestaurant);
 
 //branch related path
 router.route("/:res_id/branch/create").post(protect,branchCreate);
