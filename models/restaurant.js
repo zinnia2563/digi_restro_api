@@ -7,7 +7,6 @@ const restaurantSchema = mongoose.Schema({
         ref: 'User',
       },
     Restaurant_name: { type: String, required: true},
-    branch_name: {type: String, required: true},
     Address: {type: String, required: false},
     Lat: {type: String, required: false},
     Lng: {type: String, required: false},
