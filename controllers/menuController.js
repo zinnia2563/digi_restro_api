@@ -28,13 +28,13 @@ const menuCreate = asyncHandler(async(req, res) => {
         return res.status(400).json({ error: error.toString() });
      }
 })
-const getMenuByResId = asyncHandler(async(req,res)=>{
-    const res_id = req.params.res_id;
-    console.log(res_id)
+const getMenuByCategoryName = asyncHandler(async(req,res)=>{
+    const category_name = req.params.category_name;
+    console.log(category_name)
     try {
-        const result = await Table.find({Restaurant_id: res_id});
+        const result = await Table.find({Category_Name: category_name});
         res.status(201).json({
-            message: "get all menu successfully",
+            message: `get all ${category_name} menu successfully`,
             data: result
         })
     } catch (error) {
@@ -43,6 +43,6 @@ const getMenuByResId = asyncHandler(async(req,res)=>{
 })
 module.exports = {
  menuCreate,
- getMenuByResId
+ getMenuByCategoryName,
 };
 
