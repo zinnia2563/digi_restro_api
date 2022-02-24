@@ -8,9 +8,9 @@ const {
  getSingleRestaurant
 } = require("../controllers/restaurantController");
 const{branchCreate,getSingleBranch,updateBranch} = require("../controllers/branchController");
-const { tableCreate, getsingleTable } = require("../controllers/tableController");
+const { tableCreate, getsingleTable, GetAllTable } = require("../controllers/tableController");
 const { categoryCreate, getAllCategory } = require("../controllers/CategoryController");
-const {menuCreate, getMenuByResId}=require("../controllers/menuController");
+const {menuCreate, getMenuByResId} = require("../controllers/menuController");
 
 //restaurent related path
 router.route("/get_all").get(GetAllRestaurant);
@@ -26,6 +26,7 @@ router.route("/:res_id/branch/update/:branch_id").patch(protect,updateBranch)
 //table related path
 router.route("/:res_id/table/create").post(protect,tableCreate);
 router.route("/:res_id/table/:table_id").get(protect,getsingleTable);
+router.route("/:res_id/table/").get(protect,GetAllTable);
 
 //food category related path
 router.route("/:res_id/food_category/create").post(protect,categoryCreate)
