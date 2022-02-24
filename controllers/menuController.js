@@ -6,9 +6,10 @@ const axios = require('axios');
 // menu Create API
 const menuCreate = asyncHandler(async(req, res) => {
 
-    const { Item_name, Price, Quantity, Category_id, Uom } = req.body;
+    const { Category_Name,Item_name, Price, Quantity, Category_id, Uom } = req.body;
     const insertAbleObject = new Table(
         {
+            Category_Name,
             Item_name,
             Price,
             Quantity,
