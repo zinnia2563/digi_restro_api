@@ -2,14 +2,19 @@ const asyncHandler = require("express-async-handler");
 const Restaurant = require("../models/restaurant");
 const QRCode = require('qrcode')
 const axios = require('axios');
+const jwt_decode = require('jwt-decode');
+
 //Login for Restaurant owner 
 const RestaurantCreate = asyncHandler(async (req, res) => {
+  //console.log(req)
     const {
         Restaurant_name,
         branch_name,
         Address,
     } = req.body;
-
+    const user_id = req.headers.authorization
+    var decoded = jwt_decode(user_id);
+    //console.log(decoded);
     //calling external api for lat long
     const response = await axios.get(`https://geocode.maps.co/search?q=${Address}`);
     const data = response.data;
@@ -17,7 +22,7 @@ const RestaurantCreate = asyncHandler(async (req, res) => {
     const Lng = data[0].lon;
 
     const resItem = new Restaurant({
-        Restaurant_owner_id: req.user._id,
+        Restaurant_owner_id: decoded.id,
         branch_name,
         Restaurant_name,
         Address,
@@ -29,24 +34,30 @@ const RestaurantCreate = asyncHandler(async (req, res) => {
     try {
         const insertData = await resItem.save();
         const id = insertData._id;
-        const code = await QRCode.toDataURL(`${id}`);
+        const code = await QRCode.toDataURL(`
+        Restaurant_name: ${Restaurant_name},
+        Branch_name: ${branch_name},
+        Address: ${Address},
+        `);
         let base64Data = code.replace(/^data:image\/\w+;base64,/, "");
         let fileName = id;
             fileName+='.png';
-        let FilePath = `./QRCodes/${fileName}`
-        require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
+            let FilePath = `./public/QRCodes/${fileName}`
+            let imageLocation = `./QRCodes/${fileName}`
+        require("fs").writeFileSync(FilePath, base64Data, 'base64', function(err) {
           
         });
         const restuarent = await Restaurant.findById(id)
         if(restuarent){
             restuarent.Restaurant_name = Restaurant_name || restuarent.Restaurant_name
             restuarent.Code = id || restuarent.Code
-            restuarent.Qr_code_path = FilePath || restuarent.Qr_code_path
+            restuarent.Qr_code_path = imageLocation || restuarent.Qr_code_path
         }
         try {
             updateRestaurant = await restuarent.save();
             res.status(201).json({
               message: "Restaurant created successfully!",
+              data: updateRestaurant
           })
         } catch (error) {
           return res.status(400).json({ error: error.toString() });

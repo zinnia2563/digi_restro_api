@@ -30,7 +30,7 @@ const tableCreate = asyncHandler(async (req, res) => {
             fileName+='.png';
         let FilePath = `./public/QRCodes/${fileName}`
         let imageLocation = `./QRCodes/${fileName}`
-        require("fs").writeFile(FilePath, base64Data, 'base64', function(err) {
+        require("fs").writeFileSync(FilePath, base64Data, 'base64', function(err) {
           
         });
         const table = await Table.findById(id)
