@@ -8,7 +8,10 @@ const tableCreate = asyncHandler(async (req, res) => {
      const {
          Table_number
      } = req.body;
-
+     const isExistTable = await Table.findOne({ Table_number });
+     if(isExistTable){
+      return res.status(403).json({ message: "table already exist" });
+     }
      const insertAbleObject = new Table(
         {
             Table_number,
