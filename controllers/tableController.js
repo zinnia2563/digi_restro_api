@@ -41,10 +41,8 @@ const tableCreate = asyncHandler(async (req, res) => {
         }
         try {
             updateTable = await table.save();
-            res.status(201).json({
-              message: "Table created successfully!",
-              data: table,
-          })
+            updateTable.message = "Table created successfully"
+            res.status(201).json(updateTable)
         } catch (error) {
           return res.status(400).json({ error: error.toString() });
         }
