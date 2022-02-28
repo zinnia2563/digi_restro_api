@@ -6,7 +6,7 @@ const tableSchema = mongoose.Schema({
         required: true,
         ref: 'Restaurant',
       },
-    Table_number: { type: String, required: true},
+    Table_number: { type: Number, required: true},
     Code: { type: String},
     Qr_code_path: {type: String},
 
