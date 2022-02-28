@@ -8,10 +8,13 @@ const tableCreate = asyncHandler(async (req, res) => {
      const {
          Table_number
      } = req.body;
-     const DatabaseData = await Table.findOne({ Table_number });
-     //console.log(DatabaseData)
-     if(DatabaseData){
-        if(req.params.res_id === DatabaseData.Restaurant_id){
+     const Restaurant_id = req.params.res_id;
+     const DatabaseData = await Table.find({ Restaurant_id }).select('Table_number');
+     const DatabaseTableNumbers = DatabaseData.map((item)=>{
+       return item.Table_number;
+     })
+     if(DatabaseData !=null){
+        if(DatabaseTableNumbers.includes(Table_number)){
             return res.status(403).json({ message: "table already exist"});
         }
      }
