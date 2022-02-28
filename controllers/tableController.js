@@ -8,9 +8,12 @@ const tableCreate = asyncHandler(async (req, res) => {
      const {
          Table_number
      } = req.body;
-     const isExistTable = await Table.findOne({ Table_number });
-     if(isExistTable){
-      return res.status(403).json({ message: "table already exist" });
+     const DatabaseData = await Table.findOne({ Table_number });
+     //console.log(DatabaseData)
+     if(DatabaseData){
+        if(req.params.res_id === DatabaseData.Restaurant_id){
+            return res.status(403).json({ message: "table already exist"});
+        }
      }
      const insertAbleObject = new Table(
         {
@@ -23,7 +26,6 @@ const tableCreate = asyncHandler(async (req, res) => {
         const id = insertData._id;
         const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`
         let result = url.substring(0, url.length-12)+`1/${Table_number}/menu`;
-        console.log(result);
         const code = await QRCode.toDataURL(`${result}`);
         let base64Data = code.replace(/^data:image\/\w+;base64,/, "");
         let fileName = id;
