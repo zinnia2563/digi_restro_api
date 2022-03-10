@@ -27,8 +27,7 @@ const tableCreate = asyncHandler(async (req, res) => {
     try {
         const insertData = await insertAbleObject.save();
         const id = insertData._id;
-        const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`
-        let result = url.substring(0, url.length-12)+`1/${Table_number}/menu`;
+        let result = `https://digi-res.netlify.app/api/res/${req.params.res_id}/1/${id}/menu`;
         const code = await QRCode.toDataURL(`${result}`);
         let base64Data = code.replace(/^data:image\/\w+;base64,/, "");
         let fileName = id;
