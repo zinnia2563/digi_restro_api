@@ -10,12 +10,8 @@ const {
 const{branchCreate,getSingleBranch,updateBranch} = require("../controllers/branchController");
 const { tableCreate, getsingleTable, GetAllTable } = require("../controllers/tableController");
 const { categoryCreate, getAllCategory } = require("../controllers/CategoryController");
-<<<<<<< HEAD
-const {menuCreate, getMenuByCategoryName} = require("../controllers/menuController");
-=======
 const {menuCreate, getMenuByCategoryName,getAllmenuByRestaurent} = require("../controllers/menuController");
->>>>>>> b5bc4f8a03db7483ff357ca9ca0016948e0aa513
-const { orderCreate } = require("../controllers/orderController");
+const { orderCreate, getAllOrder } = require("../controllers/orderController");
 
 //restaurent related path
 router.route("/get_all").get(GetAllRestaurant);
@@ -44,10 +40,7 @@ router.route("/:res_id/menu/:category_name").get(protect,getMenuByCategoryName);
 //router.route("/:res_id/:branch_id/:table_number/menu").get(protect,getMenuByResId);
 
 //order related path
-<<<<<<< HEAD
-router.route("/:res_id/table/:table_id/order").post(protect,orderCreate);
-=======
+router.route("/:res_id/order").get(getAllOrder)
 router.route("/:res_id/table/:table_id/order").post(orderCreate);
->>>>>>> b5bc4f8a03db7483ff357ca9ca0016948e0aa513
 
 module.exports = router;

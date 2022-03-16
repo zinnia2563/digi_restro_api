@@ -35,7 +35,7 @@ const RestaurantCreate = asyncHandler(async (req, res) => {
         const insertData = await resItem.save();
         const id = insertData._id;
         const code = await QRCode.toDataURL(`
-        Restaurant_name: ${Restaurant_name},
+        Bestaurant_name: ${Restaurant_name},
         Branch_name: ${branch_name},
         Address: ${Address},
         `);
