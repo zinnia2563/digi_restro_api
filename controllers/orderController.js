@@ -24,9 +24,9 @@ const orderCreate = asyncHandler(async(req, res) => {
     })
 const getAllOrder = asyncHandler(asyncHandler(async(req,res)=>{
     try {
-        const orders = await Table.find({});
+        const orders = await Table.find({ Restaurant_id : req.params.res_id});
         res.status(200).json({
-          message: "Get all Order succcesfully...",
+          message: orders.length>0? "Get all Order succcesfully...": "No order found for this restaurent",
           data: orders,
       })
       } catch (error) {
