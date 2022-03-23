@@ -51,7 +51,7 @@ const updateOrder = asyncHandler(async (req, res) => {
   let order = await Order.findById(req.params.order_id);
   const { status } = req.body;
   if (order) {
-    order.status = status || order.status;
+    order.status = status;
   }
   try {
     const responseData = await order.save();
