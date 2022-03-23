@@ -5,9 +5,7 @@ const axios = require('axios');
 
 //table Create API
 const tableCreate = asyncHandler(async (req, res) => {
-     const {
-         Table_number
-     } = req.body;
+     const { Table_number } = req.body;
      const Restaurant_id = req.params.res_id;
      const DatabaseData = await Table.find({ Restaurant_id }).select('Table_number');
      const DatabaseTableNumbers = DatabaseData.map((item)=>{
