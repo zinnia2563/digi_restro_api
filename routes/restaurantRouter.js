@@ -30,6 +30,9 @@ const {
   orderCreate,
   getAllOrder,
   updateOrder,
+  orderByDate,
+  getQrCodeScan,
+  getOrderKitchenEffeciency,
 } = require("../controllers/orderController");
 
 //restaurent related path
@@ -62,6 +65,11 @@ router
 
 //order related path
 router.route("/:res_id/:branch_id/order").get(getAllOrder);
+router.route("/:res_id/:branch_id/order/report/total").get(orderByDate);
+router.route("/:res_id/:branch_id/order/report/total_scan").get(getQrCodeScan);
+router
+  .route("/:res_id/:branch_id/order/report/kitchen")
+  .get(getOrderKitchenEffeciency);
 router.route("/:res_id/table/:table_id/order").post(orderCreate);
 router.route("/order/:order_id").patch(updateOrder);
 
