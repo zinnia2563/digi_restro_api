@@ -79,7 +79,7 @@ const orderByDate = asyncHandler(async (req, res) => {
       message:
         result.length > 0
           ? "Get all Order succcesfully..."
-          : "No order found for this restaurent",
+          : "Order for this restaurent",
       data: result,
     });
   } catch (error) {
