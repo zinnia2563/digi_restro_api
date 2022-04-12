@@ -43,7 +43,7 @@ const getAllOrder = asyncHandler(async (req, res) => {
       message:
         finalResult.length > 0
           ? "Get all Order succcesfully..."
-          : "No order found for this restaurent",
+          : "order for this restaurent",
       data: finalResult,
     });
   } catch (error) {
