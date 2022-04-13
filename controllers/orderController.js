@@ -43,7 +43,7 @@ const getAllOrder = asyncHandler(async (req, res) => {
       message:
         finalResult.length > 0
           ? "Get all Order succcesfully..."
-          : "order for this restaurent",
+          : "Order found for this restaurent",
       data: finalResult,
     });
   } catch (error) {
@@ -79,7 +79,7 @@ const orderByDate = asyncHandler(async (req, res) => {
       message:
         result.length > 0
           ? "Get all Order succcesfully..."
-          : "Order for this restaurent",
+          : "Order found for this restaurent",
       data: result,
     });
   } catch (error) {
@@ -90,15 +90,19 @@ const orderByDate = asyncHandler(async (req, res) => {
 const updateOrder = asyncHandler(async (req, res) => {
   let order = await Order.findById(req.params.order_id);
   const { status } = req.body;
-  if (order) {
+  if (order !== null) {
     order.status = status;
+    try {
+      const responseData = await order.save();
+      res.status(201).json({
+        message: "order updated successfully..!",
+      });
+    } catch (error) {
+      return res.status(400).json({ error: error.toString() });
+    }
+  } else {
+    return res.status(400).json({ error: "invalid order id" });
   }
-  try {
-    const responseData = await order.save();
-    res.status(201).json({
-      message: "order updated successfully..!",
-    });
-  } catch (error) {}
 });
 
 function groupByKey(array, key) {
@@ -159,10 +163,11 @@ function datetime(ms) {
   const daysms = ms % (24 * 60 * 60 * 1000);
   const hours = Math.floor(daysms / (60 * 60 * 1000));
   const hoursms = ms % (60 * 60 * 1000);
-  const minutes = Math.floor(hoursms / (60 * 1000));
-  const minutesms = ms % (60 * 1000);
-  const sec = Math.floor(minutesms / 1000);
-  return `${days} days ${hours} hours ${minutes} minutes and ${sec} `;
+  const minutes =
+    Math.floor(hoursms / (60 * 1000)) + hours * 60 + days * 24 * 60;
+  //const minutesms = ms % (60 * 1000);
+  //const sec = Math.floor(minutesms / 1000);
+  return ` ${minutes} minutes `;
 }
 
 module.exports = {
