@@ -33,6 +33,11 @@ const {
   orderByDate,
   getQrCodeScan,
   getOrderKitchenEffeciency,
+  getCompletedOrder,
+  getPendingOrder,
+  getAcceptedOrder,
+  getCancelledOrder,
+  getPendingandAcceptedOrder,
 } = require("../controllers/orderController");
 
 //restaurent related path
