@@ -65,6 +65,12 @@ router
 
 //order related path
 router.route("/:res_id/:branch_id/order").get(getAllOrder);
+router
+  .route("/:res_id/:branch_id/order/pending_and_accepted")
+  .get(getPendingandAcceptedOrder);
+// router.route("/:res_id/:branch_id/order/accepted").get(getAcceptedOrder);
+router.route("/:res_id/:branch_id/order/completed").get(getCompletedOrder);
+router.route("/:res_id/:branch_id/order/cancelled").get(getCancelledOrder);
 router.route("/:res_id/:branch_id/order/report/total").get(orderByDate);
 router.route("/:res_id/:branch_id/order/report/total_scan").get(getQrCodeScan);
 router
