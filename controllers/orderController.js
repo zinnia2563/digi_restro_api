@@ -50,7 +50,97 @@ const getAllOrder = asyncHandler(async (req, res) => {
     res.json({ message: error });
   }
 });
-
+//get all pending order
+const getPendingandAcceptedOrder = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find({
+      Restaurant_id: req.params.res_id,
+      status: { $in: [0, 1] },
+    });
+    const finalResult = [];
+    for (let index = 0; index < orders.length; index++) {
+      const order = orders[index];
+      const table_id = order.Table_id;
+      const tableData = await Table.findById(table_id, {
+        Table_number: 1,
+        _id: 0,
+      });
+      order.set("Table_number", tableData.Table_number, { strict: false });
+      finalResult.push(order);
+    }
+    res.status(200).json({
+      message:
+        finalResult.length > 0
+          ? "Get all Order succcesfully..."
+          : "Order found for this restaurent",
+      data: finalResult,
+    });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+//get all accepted order
+// const getAcceptedOrder = asyncHandler(async (req, res) => {
+//   console.log("accepted");
+// });
+//get all completed order
+const getCompletedOrder = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find({
+      Restaurant_id: req.params.res_id,
+      status: 2,
+    });
+    const finalResult = [];
+    for (let index = 0; index < orders.length; index++) {
+      const order = orders[index];
+      const table_id = order.Table_id;
+      const tableData = await Table.findById(table_id, {
+        Table_number: 1,
+        _id: 0,
+      });
+      order.set("Table_number", tableData.Table_number, { strict: false });
+      finalResult.push(order);
+    }
+    res.status(200).json({
+      message:
+        finalResult.length > 0
+          ? "Get all Order succcesfully..."
+          : "Order found for this restaurent",
+      data: finalResult,
+    });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
+//get all cancalled order
+const getCancelledOrder = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find({
+      Restaurant_id: req.params.res_id,
+      status: 3,
+    });
+    const finalResult = [];
+    for (let index = 0; index < orders.length; index++) {
+      const order = orders[index];
+      const table_id = order.Table_id;
+      const tableData = await Table.findById(table_id, {
+        Table_number: 1,
+        _id: 0,
+      });
+      order.set("Table_number", tableData.Table_number, { strict: false });
+      finalResult.push(order);
+    }
+    res.status(200).json({
+      message:
+        finalResult.length > 0
+          ? "Get all Order succcesfully..."
+          : "Order found for this restaurent",
+      data: finalResult,
+    });
+  } catch (error) {
+    res.json({ message: error });
+  }
+});
 const orderByDate = asyncHandler(async (req, res) => {
   try {
     const orders = await Order.find({ Restaurant_id: req.params.res_id });
@@ -171,10 +261,14 @@ function datetime(ms) {
 }
 
 module.exports = {
-  orderCreate,
+ orderCreate,
   getAllOrder,
   updateOrder,
   orderByDate,
   getQrCodeScan,
   getOrderKitchenEffeciency,
+  getCompletedOrder,
+  // getPendingOrder,
+  getPendingandAcceptedOrder,
+  getCancelledOrder,
 };
