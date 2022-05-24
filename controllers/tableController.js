@@ -68,8 +68,9 @@ const getsingleTable = asyncHandler(async (req, res) => {
   }
 });
 const GetAllTable = asyncHandler(async (req, res) => {
+  const restuarent_id = req.params.res_id;
   try {
-    const Tables = await Table.find({});
+    const Tables = await Table.find({ Restaurant_id: restuarent_id });
     res.status(200).json({
       message: "All Table get successfully!",
       data: Tables,
