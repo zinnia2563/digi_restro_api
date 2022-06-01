@@ -1,9 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const Table = require("../models/menuModel");
 const QrCode = require("../models/qrCodeModel");
+const totalScan = require("../models/totalScanModel");
 const QRCode = require("qrcode");
 const axios = require("axios");
-
+const jwt_decode = require("jwt-decode");
 // menu Create API
 const menuCreate = asyncHandler(async (req, res) => {
   const { Category_Name, Item_name, Price, Quantity, Category_id, Uom } =
@@ -41,20 +42,11 @@ const getMenuByCategoryName = asyncHandler(async (req, res) => {
 });
 const getAllmenuByRestaurent = asyncHandler(async (req, res) => {
   const res_id = req.params.res_id;
-  //for qr code scan count
-  const qrCodeResult = await QrCode.find();
-  if (qrCodeResult.length < 1) {
-    const insertAbleObject = new QrCode({
-      Total: 1,
-    });
-    await insertAbleObject.save();
-  } else {
-    const newScan = qrCodeResult[0].Total + 1;
-    const id = qrCodeResult[0]._id;
-    const newResult = await QrCode.findById(id);
-    newResult.Total = newScan;
-    await newResult.save();
-  }
+  // for qr code scan count
+  const scanObj = new totalScan({
+    res_id: res_id,
+  });
+  await scanObj.save();
   //find all menu for this table...
   try {
     const result = await Table.find({ Restaurant_id: res_id });

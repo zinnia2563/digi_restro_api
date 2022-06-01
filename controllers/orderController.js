@@ -1,19 +1,24 @@
 const asyncHandler = require("express-async-handler");
 const Order = require("../models/orderModel");
 const Table = require("../models/tableModel");
+const User = require("../models/resOwner");
 const QRCode = require("qrcode");
 const axios = require("axios");
 const QrCode = require("../models/qrCodeModel");
-
+const totalScan = require("../models/totalScanModel");
+const ShortUniqueId = require("short-unique-id");
+const jwt_decode = require("jwt-decode");
+const Restaurant = require("../models/restaurant");
 // order Create API
 const orderCreate = asyncHandler(async (req, res) => {
-  //   console.log("api called");
+  const uid = new ShortUniqueId({ length: 8 });
   var orderDate = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
   const { orderItems } = req.body;
   const insertAbleObject = new Order({
     Table_id: req.params.table_id,
     orderItems,
     Restaurant_id: req.params.res_id,
+    Order_id: Math.floor(Math.random() * 90000000) + 10000000,
     orderDate: orderDate,
   });
   try {
@@ -24,6 +29,7 @@ const orderCreate = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: error.toString() });
   }
 });
+//get all order
 const getAllOrder = asyncHandler(async (req, res) => {
   try {
     const orders = await Order.find({ Restaurant_id: req.params.res_id });
@@ -50,6 +56,7 @@ const getAllOrder = asyncHandler(async (req, res) => {
     res.json({ message: error });
   }
 });
+
 //get all pending order
 const getPendingandAcceptedOrder = asyncHandler(async (req, res) => {
   try {
@@ -206,11 +213,12 @@ function groupByKey(array, key) {
 
 const getQrCodeScan = asyncHandler(async (req, res) => {
   try {
-    const result = await QrCode.find();
+    const res_id = req.params.res_id;
+    const result = await totalScan.find({ res_id: res_id });
     res.status(200).json({
       message: "Total qr code retrieve successfully..",
       data: {
-        total_scan: result[0].Total,
+        total_scan: result.length,
       },
     });
   } catch (error) {
@@ -261,7 +269,7 @@ function datetime(ms) {
 }
 
 module.exports = {
- orderCreate,
+  orderCreate,
   getAllOrder,
   updateOrder,
   orderByDate,

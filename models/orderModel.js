@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const timeZone = require("mongoose-timezone");
 const orderitems = mongoose.Schema({
   menu_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -22,9 +22,7 @@ const orderSchema = mongoose.Schema(
       ref: "Restaurant",
     },
     Order_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: "Order",
+      type: String,
     },
     Table_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -47,7 +45,7 @@ const orderSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
+orderSchema.plugin(timeZone, { paths: ["date", "subDocument.subDate"] });
 const order = mongoose.model("orderSchema", orderSchema);
 
 module.exports = order;

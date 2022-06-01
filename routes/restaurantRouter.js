@@ -84,4 +84,4 @@ router
 router.route("/:res_id/table/:table_id/order").post(orderCreate);
 router.route("/order/:order_id").patch(updateOrder);
 
-module.exports = router;
+module.exports = router; //route

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const timeZone = require("mongoose-timezone");
 const restaurantSchema = mongoose.Schema(
   {
     Restaurant_owner_id: {
@@ -18,7 +18,7 @@ const restaurantSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-
+restaurantSchema.plugin(timeZone, { paths: ["date", "subDocument.subDate"] });
 const Restaurant = mongoose.model("restaurantSchema", restaurantSchema);
 
 module.exports = Restaurant;
