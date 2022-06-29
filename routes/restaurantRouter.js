@@ -25,6 +25,9 @@ const {
   menuCreate,
   getMenuByCategoryName,
   getAllmenuByRestaurent,
+  getForReactApplication,
+  MenuUpdate,
+  getSingleMenu,
 } = require("../controllers/menuController");
 const {
   orderCreate,
@@ -66,6 +69,9 @@ router.route("/:res_id/menu/").get(getAllmenuByRestaurent);
 router
   .route("/:res_id/menu/:category_name")
   .get(protect, getMenuByCategoryName);
+router.route("/:res_id/menu/update/:id").patch(MenuUpdate);
+router.route("/:res_id/menu/react").post(getForReactApplication);
+router.route("/:res_id/menu/single_get/:menu_id").get(getSingleMenu);
 //router.route("/:res_id/:branch_id/:table_number/menu").get(protect,getMenuByResId);
 
 //order related path

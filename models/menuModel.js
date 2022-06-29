@@ -17,6 +17,8 @@ const menuSchema = mongoose.Schema(
     Price: { type: Number, required: true },
     Quantity: { type: String, required: false },
     Uom: { type: String, required: false },
+    status: { type: Number, required: false },
+    total_available: { type: Number, required: false },
   },
   {
     timestamps: true,
